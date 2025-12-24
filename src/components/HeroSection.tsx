@@ -69,8 +69,8 @@ export function HeroSection() {
               transition={{ delay: 0.5 }}
               className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6"
             >
-              <span className="text-foreground">John</span>{" "}
-              <span className="text-primary terminal-text">Doe</span>
+              <span className="text-foreground">MD</span>{" "}
+              <span className="text-primary terminal-text">SOJIB</span>
             </motion.h1>
 
             <motion.div
@@ -145,7 +145,7 @@ export function HeroSection() {
                 <div className="w-full h-full bg-gradient-to-br from-secondary via-muted to-secondary flex items-center justify-center">
                   <div className="text-center">
                     <div className="w-32 h-32 md:w-40 md:h-40 mx-auto rounded-full bg-primary/20 flex items-center justify-center mb-4">
-                      <span className="text-6xl md:text-7xl font-mono text-primary">JD</span>
+                      <span className="text-6xl md:text-7xl font-mono text-primary">MS</span>
                     </div>
                     <p className="font-mono text-sm text-primary/60">// Profile Image</p>
                   </div>

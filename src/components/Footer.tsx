@@ -73,7 +73,7 @@ export function Footer() {
           >
             <p className="text-muted-foreground text-sm font-mono flex items-center justify-center gap-2">
               <span>© {currentYear}</span>
-              <span className="text-primary">CyberSec</span>
+              <span className="text-primary">MD SOJIB</span>
               <span>|</span>
               <span>Built with</span>
               <Heart className="h-4 w-4 text-red-500 fill-red-500 animate-pulse" />

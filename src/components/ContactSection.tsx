@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { Send, Mail, MapPin, Phone, Github, Linkedin, Twitter, Facebook, Instagram } from "lucide-react";
+import { Send, Mail, MapPin, Github, Linkedin, Twitter, Facebook, Instagram } from "lucide-react";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 import { Textarea } from "./ui/textarea";
@@ -196,22 +196,6 @@ export function ContactSection() {
                 </div>
               </div>
 
-              <div className="bg-card border border-border rounded-lg p-6 hover:border-primary/50 transition-colors group">
-                <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
-                    <Phone className="h-6 w-6 text-primary" />
-                  </div>
-                  <div>
-                    <p className="font-mono text-sm text-muted-foreground">Phone</p>
-                    <a
-                      href="tel:+14155551234"
-                      className="text-foreground hover:text-primary transition-colors"
-                    >
-                      +1 (415) 555-1234
-                    </a>
-                  </div>
-                </div>
-              </div>
             </div>
 
             {/* Social Links */}

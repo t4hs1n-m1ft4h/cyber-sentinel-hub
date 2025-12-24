@@ -7,6 +7,7 @@ import { Button } from "./ui/button";
 const navItems = [
   { name: "Home", href: "#home" },
   { name: "About", href: "#about" },
+  { name: "Services", href: "#services" },
   { name: "Achievements", href: "#achievements" },
   { name: "Blog", href: "#blog" },
   { name: "Gallery", href: "#gallery" },
@@ -73,7 +74,7 @@ export function Header() {
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
           >
-            &lt;CyberSec/&gt;
+            &lt;MD SOJIB/&gt;
           </motion.a>
 
           {/* Desktop Navigation */}
