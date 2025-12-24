@@ -43,11 +43,11 @@ export function HeroSection() {
     >
       {/* Background Effects */}
       <div className="absolute inset-0 bg-gradient-to-b from-primary/5 via-transparent to-background" />
-      <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-primary/10 rounded-full blur-3xl" />
-      <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-accent/10 rounded-full blur-3xl" />
+      <div className="absolute top-1/4 left-1/4 w-48 md:w-96 h-48 md:h-96 bg-primary/10 rounded-full blur-3xl" />
+      <div className="absolute bottom-1/4 right-1/4 w-48 md:w-96 h-48 md:h-96 bg-accent/10 rounded-full blur-3xl" />
 
-      <div className="container mx-auto px-4 lg:px-8 pt-20">
-        <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+      <div className="container mx-auto px-4 lg:px-8 pt-20 pb-8">
+        <div className="grid lg:grid-cols-2 gap-8 lg:gap-20 items-center">
           {/* Content */}
           <motion.div
             initial={{ opacity: 0, x: -50 }}
@@ -59,7 +59,7 @@ export function HeroSection() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.4 }}
-              className="font-mono text-primary mb-4"
+              className="font-mono text-primary mb-3 md:mb-4 text-sm md:text-base"
             >
               &gt; Hello, World! I am
             </motion.p>
@@ -68,7 +68,7 @@ export function HeroSection() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.5 }}
-              className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6"
+              className="text-3xl md:text-5xl lg:text-6xl font-bold mb-4 md:mb-6"
             >
               <span className="text-foreground">MD</span>{" "}
               <span className="text-primary terminal-text">SOJIB</span>
@@ -78,7 +78,7 @@ export function HeroSection() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.6 }}
-              className="font-mono text-xl md:text-2xl lg:text-3xl mb-8 h-12"
+              className="font-mono text-lg md:text-2xl lg:text-3xl mb-6 md:mb-8 h-10 md:h-12"
             >
               <span className="text-muted-foreground">&gt; </span>
               <span className="text-primary">{displayText}</span>
@@ -91,7 +91,7 @@ export function HeroSection() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.7 }}
-              className="text-muted-foreground text-lg mb-10 max-w-lg mx-auto lg:mx-0"
+              className="text-muted-foreground text-sm md:text-lg mb-8 md:mb-10 max-w-lg mx-auto lg:mx-0 px-2 lg:px-0"
             >
               Passionate Web Security Analyst with experience in web penetration testing, 
               IT support, bug hunting, and CTF competitions. Skilled in identifying and 
@@ -102,23 +102,23 @@ export function HeroSection() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.8 }}
-              className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start"
+              className="flex flex-col sm:flex-row gap-3 md:gap-4 justify-center lg:justify-start px-4 lg:px-0"
             >
               <Button
                 size="lg"
-                className="font-mono group relative overflow-hidden bg-primary text-primary-foreground hover:bg-primary/90"
+                className="font-mono group relative overflow-hidden bg-primary text-primary-foreground hover:bg-primary/90 text-sm md:text-base"
                 onClick={() => document.getElementById("about")?.scrollIntoView({ behavior: "smooth" })}
               >
-                <Briefcase className="mr-2 h-5 w-5" />
+                <Briefcase className="mr-2 h-4 w-4 md:h-5 md:w-5" />
                 View Services
                 <span className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent translate-x-[-200%] group-hover:translate-x-[200%] transition-transform duration-700" />
               </Button>
               <Button
                 size="lg"
                 variant="outline"
-                className="font-mono border-primary text-primary hover:bg-primary hover:text-primary-foreground"
+                className="font-mono border-primary text-primary hover:bg-primary hover:text-primary-foreground text-sm md:text-base"
               >
-                <Download className="mr-2 h-5 w-5" />
+                <Download className="mr-2 h-4 w-4 md:h-5 md:w-5" />
                 Download CV
               </Button>
             </motion.div>
@@ -134,13 +134,13 @@ export function HeroSection() {
             <div className="relative">
               {/* Glowing rings */}
               <div className="absolute inset-0 rounded-full animate-glow-pulse" />
-              <div className="absolute -inset-4 rounded-full border-2 border-primary/30 animate-spin-slow" style={{ animationDuration: "20s" }} />
-              <div className="absolute -inset-8 rounded-full border border-accent/20 animate-spin-slow" style={{ animationDuration: "25s", animationDirection: "reverse" }} />
+              <div className="absolute -inset-3 md:-inset-4 rounded-full border-2 border-primary/30 animate-spin-slow" style={{ animationDuration: "20s" }} />
+              <div className="absolute -inset-6 md:-inset-8 rounded-full border border-accent/20 animate-spin-slow" style={{ animationDuration: "25s", animationDirection: "reverse" }} />
               
               {/* Profile container */}
               <motion.div
                 whileHover={{ scale: 1.02 }}
-                className="relative w-64 h-64 md:w-80 md:h-80 lg:w-96 lg:h-96 rounded-full overflow-hidden glow-border"
+                className="relative w-48 h-48 md:w-72 md:h-72 lg:w-96 lg:h-96 rounded-full overflow-hidden glow-border"
               >
                 {/* Profile Image */}
                 <img 
@@ -157,14 +157,14 @@ export function HeroSection() {
               <motion.div
                 animate={{ y: [0, -10, 0] }}
                 transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
-                className="absolute -top-4 -right-4 bg-card border border-primary/50 rounded-lg px-3 py-2 font-mono text-sm text-primary"
+                className="absolute -top-2 -right-2 md:-top-4 md:-right-4 bg-card border border-primary/50 rounded-lg px-2 py-1 md:px-3 md:py-2 font-mono text-[10px] md:text-sm text-primary"
               >
                 root@kali:~#
               </motion.div>
               <motion.div
                 animate={{ y: [0, 10, 0] }}
                 transition={{ duration: 4, repeat: Infinity, ease: "easeInOut", delay: 1 }}
-                className="absolute -bottom-4 -left-4 bg-card border border-accent/50 rounded-lg px-3 py-2 font-mono text-sm text-accent"
+                className="absolute -bottom-2 -left-2 md:-bottom-4 md:-left-4 bg-card border border-accent/50 rounded-lg px-2 py-1 md:px-3 md:py-2 font-mono text-[10px] md:text-sm text-accent"
               >
                 0x1337
               </motion.div>
@@ -177,16 +177,16 @@ export function HeroSection() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 1.2 }}
-          className="absolute bottom-8 left-1/2 -translate-x-1/2"
+          className="absolute bottom-4 md:bottom-8 left-1/2 -translate-x-1/2"
         >
           <motion.div
             animate={{ y: [0, 10, 0] }}
             transition={{ duration: 2, repeat: Infinity }}
-            className="flex flex-col items-center gap-2 cursor-pointer"
+            className="flex flex-col items-center gap-1 md:gap-2 cursor-pointer"
             onClick={() => document.getElementById("about")?.scrollIntoView({ behavior: "smooth" })}
           >
-            <span className="font-mono text-xs text-muted-foreground">Scroll Down</span>
-            <ChevronDown className="h-5 w-5 text-primary" />
+            <span className="font-mono text-[10px] md:text-xs text-muted-foreground">Scroll Down</span>
+            <ChevronDown className="h-4 w-4 md:h-5 md:w-5 text-primary" />
           </motion.div>
         </motion.div>
       </div>

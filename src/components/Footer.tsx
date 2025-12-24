@@ -13,9 +13,9 @@ export function Footer() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="py-12 border-t border-border bg-card">
+    <footer className="py-8 md:py-12 border-t border-border bg-card">
       <div className="container mx-auto px-4 lg:px-8">
-        <div className="flex flex-col items-center gap-8">
+        <div className="flex flex-col items-center gap-6 md:gap-8">
           {/* Get in Touch */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -24,10 +24,10 @@ export function Footer() {
             viewport={{ once: true }}
             className="text-center"
           >
-            <h3 className="text-2xl font-bold mb-2">
+            <h3 className="text-xl md:text-2xl font-bold mb-2">
               Get In <span className="text-primary terminal-text">Touch</span>
             </h3>
-            <p className="text-muted-foreground font-mono text-sm">
+            <p className="text-muted-foreground font-mono text-xs md:text-sm">
               Let's build something secure together
             </p>
           </motion.div>
