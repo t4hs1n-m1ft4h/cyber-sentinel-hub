@@ -2,8 +2,9 @@ import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { ChevronDown, Download, Briefcase } from "lucide-react";
 import { Button } from "./ui/button";
+import profileImage from "@/assets/profile.jpg";
 
-const roles = ["Red Teamer", "Penetration Tester", "CTF Player", "Security Researcher"];
+const roles = ["Web Security Analyst", "Penetration Tester", "CTF Player", "Bug Hunter"];
 
 export function HeroSection() {
   const [currentRole, setCurrentRole] = useState(0);
@@ -92,9 +93,9 @@ export function HeroSection() {
               transition={{ delay: 0.7 }}
               className="text-muted-foreground text-lg mb-10 max-w-lg mx-auto lg:mx-0"
             >
-              Passionate about breaking systems to make them stronger. Specialized in
-              offensive security, vulnerability research, and ethical hacking with 5+
-              years of experience in the cybersecurity field.
+              Passionate Web Security Analyst with experience in web penetration testing, 
+              IT support, bug hunting, and CTF competitions. Skilled in identifying and 
+              fixing vulnerabilities, conducting research, and developing security tools.
             </motion.p>
 
             <motion.div
@@ -141,18 +142,15 @@ export function HeroSection() {
                 whileHover={{ scale: 1.02 }}
                 className="relative w-64 h-64 md:w-80 md:h-80 lg:w-96 lg:h-96 rounded-full overflow-hidden glow-border"
               >
-                {/* Placeholder avatar with cyber aesthetic */}
-                <div className="w-full h-full bg-gradient-to-br from-secondary via-muted to-secondary flex items-center justify-center">
-                  <div className="text-center">
-                    <div className="w-32 h-32 md:w-40 md:h-40 mx-auto rounded-full bg-primary/20 flex items-center justify-center mb-4">
-                      <span className="text-6xl md:text-7xl font-mono text-primary">MS</span>
-                    </div>
-                    <p className="font-mono text-sm text-primary/60">// Profile Image</p>
-                  </div>
-                </div>
+                {/* Profile Image */}
+                <img 
+                  src={profileImage} 
+                  alt="MD SOJIB - Web Security Analyst"
+                  className="w-full h-full object-cover"
+                />
 
                 {/* Scanline overlay */}
-                <div className="absolute inset-0 scanlines opacity-30" />
+                <div className="absolute inset-0 scanlines opacity-20" />
               </motion.div>
 
               {/* Floating elements */}
