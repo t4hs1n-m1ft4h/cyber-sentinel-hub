@@ -7,11 +7,11 @@ import { Textarea } from "./ui/textarea";
 import { useToast } from "@/hooks/use-toast";
 
 const socialLinks = [
-  { icon: Github, href: "https://github.com", label: "GitHub" },
-  { icon: Linkedin, href: "https://linkedin.com", label: "LinkedIn" },
-  { icon: Twitter, href: "https://twitter.com", label: "Twitter" },
-  { icon: Facebook, href: "https://facebook.com", label: "Facebook" },
-  { icon: Instagram, href: "https://instagram.com", label: "Instagram" },
+  { icon: Github, href: "https://github.com/mdsojibcsr", label: "GitHub" },
+  { icon: Linkedin, href: "https://linkedin.com/in/mdsojibcsr", label: "LinkedIn" },
+  { icon: Twitter, href: "https://twitter.com/mdsojibcsr", label: "Twitter" },
+  { icon: Facebook, href: "https://facebook.com/mdsojibcsr", label: "Facebook" },
+  { icon: Instagram, href: "https://instagram.com/mdsojibcsr", label: "Instagram" },
 ];
 
 export function ContactSection() {

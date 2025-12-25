@@ -1,12 +1,12 @@
 import { motion } from "framer-motion";
-import { Github, Linkedin, Twitter, Facebook, Instagram, Heart } from "lucide-react";
+import { Github, Linkedin, Twitter, Facebook, Instagram } from "lucide-react";
 
 const socialLinks = [
-  { icon: Github, href: "https://github.com", label: "GitHub" },
-  { icon: Linkedin, href: "https://linkedin.com", label: "LinkedIn" },
-  { icon: Twitter, href: "https://twitter.com", label: "Twitter" },
-  { icon: Facebook, href: "https://facebook.com", label: "Facebook" },
-  { icon: Instagram, href: "https://instagram.com", label: "Instagram" },
+  { icon: Github, href: "https://github.com/mdsojibcsr", label: "GitHub" },
+  { icon: Linkedin, href: "https://linkedin.com/in/mdsojibcsr", label: "LinkedIn" },
+  { icon: Twitter, href: "https://twitter.com/mdsojibcsr", label: "Twitter" },
+  { icon: Facebook, href: "https://facebook.com/mdsojibcsr", label: "Facebook" },
+  { icon: Instagram, href: "https://instagram.com/mdsojibcsr", label: "Instagram" },
 ];
 
 export function Footer() {
@@ -71,12 +71,10 @@ export function Footer() {
             viewport={{ once: true }}
             className="text-center"
           >
-            <p className="text-muted-foreground text-sm font-mono flex items-center justify-center gap-2">
+            <p className="text-muted-foreground text-sm font-mono flex items-center justify-center gap-2 flex-wrap">
               <span>© {currentYear}</span>
               <span className="text-primary">MD SOJIB</span>
-              <span>|</span>
-              <span>Built with</span>
-              <Heart className="h-4 w-4 text-red-500 fill-red-500 animate-pulse" />
+              <span className="hidden sm:inline">|</span>
               <span>All Rights Reserved.</span>
             </p>
           </motion.div>

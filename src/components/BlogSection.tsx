@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { Calendar, ArrowRight } from "lucide-react";
+import { Calendar, ArrowRight, ExternalLink } from "lucide-react";
 import { Button } from "./ui/button";
 import blog1Image from "@/assets/blog-1.png";
 import blog2Image from "@/assets/blog-2.png";
@@ -13,6 +13,7 @@ const blogPosts = [
     date: "2024",
     category: "Cybersecurity",
     image: blog1Image,
+    link: "#",
   },
   {
     id: 2,
@@ -21,6 +22,7 @@ const blogPosts = [
     date: "2024",
     category: "Web Security",
     image: blog2Image,
+    link: "#",
   },
   {
     id: 3,
@@ -29,6 +31,7 @@ const blogPosts = [
     date: "2024",
     category: "Web Security",
     image: blog3Image,
+    link: "#",
   },
 ];
 
@@ -94,13 +97,15 @@ export function BlogSection() {
                   {post.summary}
                 </p>
 
-                <Button
-                  variant="ghost"
-                  className="font-mono text-primary hover:text-primary hover:bg-primary/10 p-0 h-auto group/btn text-xs md:text-sm"
+                <a
+                  href={post.link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center font-mono text-primary hover:text-primary hover:bg-primary/10 p-0 h-auto group/btn text-xs md:text-sm transition-colors"
                 >
                   Read More
-                  <ArrowRight className="ml-2 h-3 w-3 md:h-4 md:w-4 transition-transform group-hover/btn:translate-x-1" />
-                </Button>
+                  <ExternalLink className="ml-2 h-3 w-3 md:h-4 md:w-4 transition-transform group-hover/btn:translate-x-1" />
+                </a>
               </div>
             </motion.article>
           ))}
@@ -117,6 +122,7 @@ export function BlogSection() {
             variant="outline"
             size="lg"
             className="font-mono border-primary text-primary hover:bg-primary hover:text-primary-foreground text-sm md:text-base"
+            onClick={() => window.open("https://medium.com/@mdsojibcsr", "_blank")}
           >
             View All Posts
             <ArrowRight className="ml-2 h-4 w-4" />

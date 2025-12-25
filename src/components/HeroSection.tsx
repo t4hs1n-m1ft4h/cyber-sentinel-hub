@@ -4,7 +4,7 @@ import { ChevronDown, Download, Briefcase } from "lucide-react";
 import { Button } from "./ui/button";
 import profileImage from "@/assets/profile.jpg";
 
-const roles = ["Web Security Analyst", "Penetration Tester", "CTF Player", "Bug Hunter"];
+const roles = ["Founder", "ISO Lead Auditor", "Cyber Security Analyst", "Penetration Tester", "IT Support", "Bug Hunter"];
 
 export function HeroSection() {
   const [currentRole, setCurrentRole] = useState(0);
@@ -107,7 +107,7 @@ export function HeroSection() {
               <Button
                 size="lg"
                 className="font-mono group relative overflow-hidden bg-primary text-primary-foreground hover:bg-primary/90 text-sm md:text-base"
-                onClick={() => document.getElementById("about")?.scrollIntoView({ behavior: "smooth" })}
+                onClick={() => document.getElementById("services")?.scrollIntoView({ behavior: "smooth" })}
               >
                 <Briefcase className="mr-2 h-4 w-4 md:h-5 md:w-5" />
                 View Services
@@ -117,6 +117,7 @@ export function HeroSection() {
                 size="lg"
                 variant="outline"
                 className="font-mono border-primary text-primary hover:bg-primary hover:text-primary-foreground text-sm md:text-base"
+                onClick={() => window.open("https://drive.google.com/file/d/YOUR_CV_ID/view", "_blank")}
               >
                 <Download className="mr-2 h-4 w-4 md:h-5 md:w-5" />
                 Download CV
