@@ -113,15 +113,20 @@ export function HeroSection() {
                 View Services
                 <span className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent translate-x-[-200%] group-hover:translate-x-[200%] transition-transform duration-700" />
               </Button>
-              <Button
-                size="lg"
-                variant="outline"
-                className="font-mono border-primary text-primary hover:bg-primary hover:text-primary-foreground text-sm md:text-base"
-                onClick={() => window.open("https://drive.google.com/file/d/YOUR_CV_ID/view", "_blank")}
+              <a
+                href="https://drive.google.com/file/d/example/view"
+                target="_blank"
+                rel="noopener noreferrer"
               >
-                <Download className="mr-2 h-4 w-4 md:h-5 md:w-5" />
-                Download CV
-              </Button>
+                <Button
+                  size="lg"
+                  variant="outline"
+                  className="font-mono border-primary text-primary hover:bg-primary hover:text-primary-foreground text-sm md:text-base w-full"
+                >
+                  <Download className="mr-2 h-4 w-4 md:h-5 md:w-5" />
+                  Download CV
+                </Button>
+              </a>
             </motion.div>
           </motion.div>
 
