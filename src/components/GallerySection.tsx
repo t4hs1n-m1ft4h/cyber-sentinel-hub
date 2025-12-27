@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { X, ZoomIn, Play } from "lucide-react";
+import { X, ZoomIn, Play, Image, Video } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 
 interface GalleryCategory {
@@ -17,13 +17,18 @@ interface GalleryItem {
   thumbnail_url: string | null;
   media_type: string;
   category_id: string | null;
+  created_at: string;
   gallery_categories: GalleryCategory | null;
 }
+
+type GalleryTab = "images" | "videos";
+type ImageFilter = "all" | "recent" | "certificates" | "ctf";
 
 export function GallerySection() {
   const [items, setItems] = useState<GalleryItem[]>([]);
   const [categories, setCategories] = useState<GalleryCategory[]>([]);
-  const [selectedCategory, setSelectedCategory] = useState<string>("all");
+  const [activeTab, setActiveTab] = useState<GalleryTab>("images");
+  const [imageFilter, setImageFilter] = useState<ImageFilter>("all");
   const [selectedItem, setSelectedItem] = useState<GalleryItem | null>(null);
   const [loading, setLoading] = useState(true);
 
@@ -53,13 +58,26 @@ export function GallerySection() {
     setLoading(false);
   };
 
-  const filteredItems = selectedCategory === "all"
-    ? items
-    : selectedCategory === "images"
-    ? items.filter(item => item.media_type === "image")
-    : selectedCategory === "videos"
-    ? items.filter(item => item.media_type === "video")
-    : items.filter(item => item.category_id === selectedCategory);
+  // Filter items based on active tab and image filter
+  const filteredItems = items.filter((item) => {
+    if (activeTab === "videos") {
+      return item.media_type === "video";
+    }
+    
+    // Images tab
+    if (item.media_type !== "image") return false;
+    
+    if (imageFilter === "all") return true;
+    if (imageFilter === "recent") {
+      // Show items from last 30 days
+      const thirtyDaysAgo = new Date();
+      thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
+      return new Date(item.created_at) >= thirtyDaysAgo;
+    }
+    
+    // Filter by category slug
+    return item.gallery_categories?.slug === imageFilter;
+  });
 
   const getYouTubeEmbedUrl = (url: string) => {
     const videoId = url.match(/(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})/)?.[1];
@@ -69,6 +87,13 @@ export function GallerySection() {
   const isYouTubeUrl = (url: string) => {
     return url.includes("youtube.com") || url.includes("youtu.be");
   };
+
+  const imageFilterTabs: { key: ImageFilter; label: string }[] = [
+    { key: "all", label: "All" },
+    { key: "recent", label: "Recent" },
+    { key: "certificates", label: "Certificates" },
+    { key: "ctf", label: "CTF" },
+  ];
 
   return (
     <section id="gallery" className="py-16 lg:py-32">
@@ -90,58 +115,75 @@ export function GallerySection() {
           </p>
         </motion.div>
 
-        {/* Category Filters */}
+        {/* Main Gallery Tabs - Image/Video */}
         <motion.div
           initial={{ opacity: 0, y: 10 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4 }}
           viewport={{ once: true }}
-          className="flex flex-wrap justify-center gap-2 md:gap-3 mb-8 md:mb-12"
+          className="flex justify-center gap-4 mb-6"
         >
           <button
-            onClick={() => setSelectedCategory("all")}
-            className={`px-4 py-2 rounded-full font-mono text-xs md:text-sm transition-all duration-300 ${
-              selectedCategory === "all"
-                ? "bg-primary text-primary-foreground"
+            onClick={() => setActiveTab("images")}
+            className={`flex items-center gap-2 px-6 py-3 rounded-lg font-mono text-sm md:text-base transition-all duration-300 ${
+              activeTab === "images"
+                ? "bg-primary text-primary-foreground shadow-lg shadow-primary/25"
                 : "bg-secondary text-muted-foreground hover:text-foreground hover:bg-secondary/80"
             }`}
           >
-            All
+            <Image className="h-4 w-4 md:h-5 md:w-5" />
+            Image Gallery
           </button>
           <button
-            onClick={() => setSelectedCategory("images")}
-            className={`px-4 py-2 rounded-full font-mono text-xs md:text-sm transition-all duration-300 ${
-              selectedCategory === "images"
-                ? "bg-primary text-primary-foreground"
+            onClick={() => setActiveTab("videos")}
+            className={`flex items-center gap-2 px-6 py-3 rounded-lg font-mono text-sm md:text-base transition-all duration-300 ${
+              activeTab === "videos"
+                ? "bg-primary text-primary-foreground shadow-lg shadow-primary/25"
                 : "bg-secondary text-muted-foreground hover:text-foreground hover:bg-secondary/80"
             }`}
           >
-            Images
+            <Video className="h-4 w-4 md:h-5 md:w-5" />
+            Video Gallery
           </button>
-          <button
-            onClick={() => setSelectedCategory("videos")}
-            className={`px-4 py-2 rounded-full font-mono text-xs md:text-sm transition-all duration-300 ${
-              selectedCategory === "videos"
-                ? "bg-primary text-primary-foreground"
-                : "bg-secondary text-muted-foreground hover:text-foreground hover:bg-secondary/80"
-            }`}
-          >
-            Videos
-          </button>
-          {categories.map((category) => (
-            <button
-              key={category.id}
-              onClick={() => setSelectedCategory(category.id)}
-              className={`px-4 py-2 rounded-full font-mono text-xs md:text-sm transition-all duration-300 ${
-                selectedCategory === category.id
-                  ? "bg-primary text-primary-foreground"
-                  : "bg-secondary text-muted-foreground hover:text-foreground hover:bg-secondary/80"
-              }`}
-            >
-              {category.name}
-            </button>
-          ))}
         </motion.div>
+
+        {/* Image Filter Tabs - Only shown when Images tab is active */}
+        <AnimatePresence mode="wait">
+          {activeTab === "images" && (
+            <motion.div
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: "auto" }}
+              exit={{ opacity: 0, height: 0 }}
+              transition={{ duration: 0.3 }}
+              className="flex flex-wrap justify-center gap-2 md:gap-3 mb-8 md:mb-12"
+            >
+              {imageFilterTabs.map((tab) => (
+                <button
+                  key={tab.key}
+                  onClick={() => setImageFilter(tab.key)}
+                  className={`px-4 py-2 rounded-full font-mono text-xs md:text-sm transition-all duration-300 ${
+                    imageFilter === tab.key
+                      ? "bg-primary/20 text-primary border border-primary"
+                      : "bg-secondary/50 text-muted-foreground hover:text-foreground hover:bg-secondary/80 border border-transparent"
+                  }`}
+                >
+                  {tab.label}
+                </button>
+              ))}
+            </motion.div>
+          )}
+        </AnimatePresence>
+
+        {/* Video Gallery Description */}
+        {activeTab === "videos" && (
+          <motion.p
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            className="text-center text-muted-foreground text-sm mb-8 max-w-2xl mx-auto"
+          >
+            Cybersecurity tutorials, ethical hacking demonstrations, CTF walkthroughs, and educational content.
+          </motion.p>
+        )}
 
         {loading ? (
           <div className="flex justify-center py-12">
@@ -149,16 +191,24 @@ export function GallerySection() {
           </div>
         ) : filteredItems.length === 0 ? (
           <div className="text-center py-12">
-            <p className="text-muted-foreground font-mono">No items found.</p>
+            <p className="text-muted-foreground font-mono">
+              {activeTab === "images" ? "No images found." : "No videos found."}
+            </p>
           </div>
         ) : (
-          <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-6">
+          <motion.div 
+            key={`${activeTab}-${imageFilter}`}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.3 }}
+            className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-6"
+          >
             {filteredItems.map((item, index) => (
               <motion.div
                 key={item.id}
                 initial={{ opacity: 0, scale: 0.9 }}
                 whileInView={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
+                transition={{ duration: 0.5, delay: index * 0.05 }}
                 viewport={{ once: true }}
                 whileHover={{ scale: 1.02 }}
                 onClick={() => setSelectedItem(item)}
@@ -197,7 +247,7 @@ export function GallerySection() {
                 </div>
               </motion.div>
             ))}
-          </div>
+          </motion.div>
         )}
 
         {/* Modal */}
