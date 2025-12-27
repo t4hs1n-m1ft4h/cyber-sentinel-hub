@@ -4,12 +4,6 @@ import { Calendar, ArrowRight, ExternalLink } from "lucide-react";
 import { Button } from "./ui/button";
 import { supabase } from "@/integrations/supabase/client";
 
-interface BlogCategory {
-  id: string;
-  name: string;
-  slug: string;
-}
-
 interface BlogPost {
   id: string;
   title: string;
@@ -19,45 +13,26 @@ interface BlogPost {
   external_link: string | null;
   published_at: string | null;
   created_at: string;
-  category_id: string | null;
-  blog_categories: BlogCategory | null;
 }
 
 export function BlogSection() {
   const [posts, setPosts] = useState<BlogPost[]>([]);
-  const [categories, setCategories] = useState<BlogCategory[]>([]);
-  const [selectedCategory, setSelectedCategory] = useState<string>("all");
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetchCategories();
     fetchPosts();
   }, []);
-
-  const fetchCategories = async () => {
-    const { data } = await supabase
-      .from("blog_categories")
-      .select("*")
-      .order("name");
-    if (data) setCategories(data);
-  };
 
   const fetchPosts = async () => {
     const { data } = await supabase
       .from("blog_posts")
-      .select(`
-        *,
-        blog_categories (id, name, slug)
-      `)
+      .select("id, title, excerpt, slug, featured_image, external_link, published_at, created_at")
       .eq("is_published", true)
-      .order("published_at", { ascending: false });
-    if (data) setPosts(data as BlogPost[]);
+      .order("published_at", { ascending: false })
+      .limit(3);
+    if (data) setPosts(data);
     setLoading(false);
   };
-
-  const filteredPosts = selectedCategory === "all" 
-    ? posts 
-    : posts.filter(post => post.category_id === selectedCategory);
 
   const formatDate = (dateString: string | null) => {
     if (!dateString) return "";
@@ -87,50 +62,17 @@ export function BlogSection() {
           </p>
         </motion.div>
 
-        {/* Category Filters */}
-        <motion.div
-          initial={{ opacity: 0, y: 10 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.4 }}
-          viewport={{ once: true }}
-          className="flex flex-wrap justify-center gap-2 md:gap-3 mb-8 md:mb-12"
-        >
-          <button
-            onClick={() => setSelectedCategory("all")}
-            className={`px-4 py-2 rounded-full font-mono text-xs md:text-sm transition-all duration-300 ${
-              selectedCategory === "all"
-                ? "bg-primary text-primary-foreground"
-                : "bg-secondary text-muted-foreground hover:text-foreground hover:bg-secondary/80"
-            }`}
-          >
-            All
-          </button>
-          {categories.map((category) => (
-            <button
-              key={category.id}
-              onClick={() => setSelectedCategory(category.id)}
-              className={`px-4 py-2 rounded-full font-mono text-xs md:text-sm transition-all duration-300 ${
-                selectedCategory === category.id
-                  ? "bg-primary text-primary-foreground"
-                  : "bg-secondary text-muted-foreground hover:text-foreground hover:bg-secondary/80"
-              }`}
-            >
-              {category.name}
-            </button>
-          ))}
-        </motion.div>
-
         {loading ? (
           <div className="flex justify-center py-12">
             <div className="h-8 w-8 border-2 border-primary/30 border-t-primary rounded-full animate-spin" />
           </div>
-        ) : filteredPosts.length === 0 ? (
+        ) : posts.length === 0 ? (
           <div className="text-center py-12">
             <p className="text-muted-foreground font-mono">No posts found.</p>
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
-            {filteredPosts.map((post, index) => (
+            {posts.map((post, index) => (
               <motion.article
                 key={post.id}
                 initial={{ opacity: 0, y: 30 }}
@@ -154,11 +96,6 @@ export function BlogSection() {
                     </div>
                   )}
                   <div className="absolute inset-0 bg-gradient-to-t from-card via-transparent to-transparent" />
-                  {post.blog_categories && (
-                    <span className="absolute top-3 left-3 md:top-4 md:left-4 px-2 md:px-3 py-0.5 md:py-1 bg-primary/90 text-primary-foreground text-[10px] md:text-xs font-mono rounded">
-                      {post.blog_categories.name}
-                    </span>
-                  )}
                 </div>
 
                 {/* Content */}
