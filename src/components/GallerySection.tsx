@@ -3,6 +3,12 @@ import { motion, AnimatePresence } from "framer-motion";
 import { X, ZoomIn, Play, Image, Video } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 
+// Import demo images
+import galleryCyber1 from "@/assets/gallery-cyber-1.jpg";
+import galleryCyber2 from "@/assets/gallery-cyber-2.jpg";
+import galleryCyber3 from "@/assets/gallery-cyber-3.jpg";
+import galleryCert1 from "@/assets/gallery-cert-1.jpg";
+
 interface GalleryCategory {
   id: string;
   name: string;
@@ -24,26 +30,101 @@ interface GalleryItem {
 type GalleryTab = "images" | "videos";
 type ImageFilter = "all" | "recent" | "certificates" | "ctf";
 
+// Demo images for when database is empty
+const demoImages: GalleryItem[] = [
+  {
+    id: "demo-img-1",
+    title: "Cybersecurity Operations",
+    description: "Behind the scenes of ethical hacking and penetration testing.",
+    media_url: galleryCyber1,
+    thumbnail_url: galleryCyber1,
+    media_type: "image",
+    category_id: null,
+    created_at: new Date().toISOString(),
+    gallery_categories: { id: "1", name: "Recent", slug: "recent" },
+  },
+  {
+    id: "demo-img-2",
+    title: "Network Security",
+    description: "Securing digital infrastructure with advanced protection.",
+    media_url: galleryCyber2,
+    thumbnail_url: galleryCyber2,
+    media_type: "image",
+    category_id: null,
+    created_at: new Date().toISOString(),
+    gallery_categories: { id: "2", name: "Recent", slug: "recent" },
+  },
+  {
+    id: "demo-img-3",
+    title: "CTF Competition",
+    description: "Capture The Flag competition and cybersecurity challenges.",
+    media_url: galleryCyber3,
+    thumbnail_url: galleryCyber3,
+    media_type: "image",
+    category_id: null,
+    created_at: new Date().toISOString(),
+    gallery_categories: { id: "3", name: "CTF", slug: "ctf" },
+  },
+  {
+    id: "demo-img-4",
+    title: "Security Certificate",
+    description: "Professional cybersecurity certification achievement.",
+    media_url: galleryCert1,
+    thumbnail_url: galleryCert1,
+    media_type: "image",
+    category_id: null,
+    created_at: new Date().toISOString(),
+    gallery_categories: { id: "4", name: "Certificates", slug: "certificates" },
+  },
+];
+
+// Demo YouTube videos
+const demoVideos: GalleryItem[] = [
+  {
+    id: "demo-vid-1",
+    title: "Web Security Tutorial",
+    description: "Learn about web application security fundamentals and common vulnerabilities.",
+    media_url: "https://youtu.be/inWWhr5tnEA?si=LhrXdv1x66yacSvK",
+    thumbnail_url: "https://img.youtube.com/vi/inWWhr5tnEA/maxresdefault.jpg",
+    media_type: "video",
+    category_id: null,
+    created_at: new Date().toISOString(),
+    gallery_categories: null,
+  },
+  {
+    id: "demo-vid-2",
+    title: "Ethical Hacking Demonstration",
+    description: "Practical demonstration of ethical hacking techniques and tools.",
+    media_url: "https://www.youtube.com/watch?v=v7BNtpw53AA",
+    thumbnail_url: "https://img.youtube.com/vi/v7BNtpw53AA/maxresdefault.jpg",
+    media_type: "video",
+    category_id: null,
+    created_at: new Date().toISOString(),
+    gallery_categories: null,
+  },
+  {
+    id: "demo-vid-3",
+    title: "CTF Walkthrough",
+    description: "Step-by-step walkthrough of a Capture The Flag cybersecurity challenge.",
+    media_url: "https://www.youtube.com/watch?v=bPVaOlJ6ln0",
+    thumbnail_url: "https://img.youtube.com/vi/bPVaOlJ6ln0/maxresdefault.jpg",
+    media_type: "video",
+    category_id: null,
+    created_at: new Date().toISOString(),
+    gallery_categories: null,
+  },
+];
+
 export function GallerySection() {
   const [items, setItems] = useState<GalleryItem[]>([]);
-  const [categories, setCategories] = useState<GalleryCategory[]>([]);
   const [activeTab, setActiveTab] = useState<GalleryTab>("images");
   const [imageFilter, setImageFilter] = useState<ImageFilter>("all");
   const [selectedItem, setSelectedItem] = useState<GalleryItem | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetchCategories();
     fetchItems();
   }, []);
-
-  const fetchCategories = async () => {
-    const { data } = await supabase
-      .from("gallery_categories")
-      .select("*")
-      .order("name");
-    if (data) setCategories(data);
-  };
 
   const fetchItems = async () => {
     const { data } = await supabase
@@ -54,7 +135,13 @@ export function GallerySection() {
       `)
       .eq("is_published", true)
       .order("created_at", { ascending: false });
-    if (data) setItems(data as GalleryItem[]);
+    
+    if (data && data.length > 0) {
+      setItems(data as GalleryItem[]);
+    } else {
+      // Use demo items if no database items
+      setItems([...demoImages, ...demoVideos]);
+    }
     setLoading(false);
   };
 
@@ -69,7 +156,8 @@ export function GallerySection() {
     
     if (imageFilter === "all") return true;
     if (imageFilter === "recent") {
-      // Show items from last 30 days
+      // Show items marked as recent or from last 30 days
+      if (item.gallery_categories?.slug === "recent") return true;
       const thirtyDaysAgo = new Date();
       thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
       return new Date(item.created_at) >= thirtyDaysAgo;
